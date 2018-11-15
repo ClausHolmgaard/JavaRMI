@@ -18,8 +18,8 @@ public class Main {
         //Registry rgsty = LocateRegistry.createRegistry(1888);
         //rgsty.rebind("hello", hello);
 
-        //System.out.println(("Starting server..."));
-        //RMIServer s = new RMIServer(port, rmiObjectName);
+        System.out.println(("Starting server..."));
+        RMIServer s = new RMIServer(port, rmiObjectName);
 
         System.out.println("Starting client...");
         client = new RMIClient();
