@@ -3,13 +3,13 @@ package javafx_rmi;
 import java.rmi.Naming;
 
 
-class RMIClient {
+public class RMIClient {
 
     private SharedObjectInterface sharedObj;
     private String rmiObjectName;
     private int port;
 
-    public  RMIClient(int rmiPort, String objectName) {
+    public RMIClient(int rmiPort, String objectName) {
         rmiObjectName = objectName;
         port = rmiPort;
 
