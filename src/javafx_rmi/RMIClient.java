@@ -63,6 +63,8 @@ public class RMIClient {
 
         rmiObjectName = "rmi://" + ip + ":" + port + folder;
 
+        System.setProperty("java.rmi.server.hostname", ip);
+
         try {
             sharedObj = (SharedObjectInterface) Naming.lookup(rmiObjectName);
             System.out.println("KLIENTEN, har nu objektet");
