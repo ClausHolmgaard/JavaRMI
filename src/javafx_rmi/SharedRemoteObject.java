@@ -1,12 +1,14 @@
+package javafx_rmi;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 
-public class SharedObject extends UnicastRemoteObject implements  SharedObjectInterface {
+public class SharedRemoteObject extends UnicastRemoteObject implements SharedObjectInterface {
 
     String sharedString;
 
-    public SharedObject() throws RemoteException {
+    public SharedRemoteObject() throws RemoteException {
         sharedString = "Init";
     }
 
