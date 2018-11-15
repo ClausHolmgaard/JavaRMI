@@ -42,18 +42,23 @@ public class RMIClient {
         }
         */
 
+        try {
+            while (true) {
+                if(checkForUpdates()) {
+                    System.out.println(getInfoMessage());
+                }
 
-        while (true) {
-            if(checkForUpdates()) {
-                System.out.println(getInfoMessage());
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    System.out.println("Timer interrupted");
+                }
             }
-
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                System.out.println("Timer interrupted");
-            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+
     }
 
     private void connect() {
@@ -96,6 +101,7 @@ public class RMIClient {
             connect();
         }
         sendInfoMessage(gui.getMessageText());
+        gui.setMessageEditField("");
     }
 
     public void ConnectClick() {
@@ -111,7 +117,6 @@ public class RMIClient {
                 return -2;
             }
         }
-
         return -1;
     }
 
@@ -133,11 +138,11 @@ public class RMIClient {
                 return sharedObj.getInfo().getMessage();
             } catch (Exception ex) {
                 System.out.println("CLIENT: Exception\n" + ex.toString());
-                return "";
+                return null;
             }
         }
 
-        return "";
+        return null;
     }
 
 }

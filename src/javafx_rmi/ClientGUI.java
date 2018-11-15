@@ -18,6 +18,9 @@ public class ClientGUI extends JPanel{
     private JButton sendMessageButton;
     private JButton connectButton;
 
+    private JList<String> list;
+    private DefaultListModel<String> listModel;
+
     private JFrame frame;
 
     public ClientGUI(RMIClient client) {
@@ -83,11 +86,42 @@ public class ClientGUI extends JPanel{
         panel2.add(sendMessageButton);
 
         frame.getContentPane().add(panel1, BorderLayout.PAGE_START);
-        frame.getContentPane().add(panelSub, BorderLayout.CENTER);
+        frame.getContentPane().add(panelSub, BorderLayout.AFTER_LINE_ENDS);
         //frame.getContentPane().add(messageEditField, BorderLayout.SOUTH);
         //frame.getContentPane().add(sendMessageButton, BorderLayout.AFTER_LAST_LINE);
         frame.getContentPane().add(panel2, BorderLayout.PAGE_END);
+        frame.getRootPane().setDefaultButton(sendMessageButton);
+
+        listModel = new DefaultListModel<>();
+        list = new JList<>(listModel);
+        list.setFixedCellWidth(300);
+        list.setDragEnabled(false);
+        list.setSelectionModel(new DisabledItemSelectionModel());
+        list.setLayoutOrientation(JList.VERTICAL);
+
+        //if we get the last index
+        int lastindex = listModel.getSize() - 1;
+        if(lastindex >= 0) {
+            //follow the last index
+            list.ensureIndexIsVisible(lastindex);
+        }
+
+        //scroll panel with list object
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
         frame.setVisible(true);
+    }
+
+    /**
+     * Disable selection
+     */
+    class DisabledItemSelectionModel extends DefaultListSelectionModel {
+        @Override
+        public void setSelectionInterval(int index0, int index1) {
+            super.setSelectionInterval(-1, -1);
+        }
     }
 
     /**
@@ -114,6 +148,10 @@ public class ClientGUI extends JPanel{
         return messageEditField.getText();
     }
 
+    public void setMessageEditField(String message){
+        messageEditField.setText(message);
+    }
+
     public String getIP() {
         return ipEditField.getText();
     }
@@ -124,7 +162,6 @@ public class ClientGUI extends JPanel{
         } catch (Exception ex) {
             System.out.println("Client: Exception: Conversion error\n" + ex.toString());
         }
-
         return -1;
     }
 
