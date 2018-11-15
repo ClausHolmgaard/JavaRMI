@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 import java.rmi.Naming;
 
 
-public class RMIClient {
+class RMIClient {
 
-    SharedObjectInterface sharedObj;
-    String rmiObjectName;
-    int port;
+    private SharedObjectInterface sharedObj;
+    private String rmiObjectName;
+    private int port;
 
-    public  RMIClient(int rmiPort, String objectName) {
+    RMIClient(int rmiPort, String objectName) {
         rmiObjectName = objectName;
         port = rmiPort;
         InitGui();
@@ -20,6 +20,9 @@ public class RMIClient {
         System.out.println("Client started on " + rmiObjectName);
     }
 
+    /**
+     * Initalization client
+     */
     private void InitClient() {
         try {
             sharedObj = (SharedObjectInterface) Naming.lookup(rmiObjectName);
@@ -31,24 +34,28 @@ public class RMIClient {
         }
     }
 
+    /**
+     * Initalization GUI
+     */
     private void InitGui() {
-        JFrame frame = new JFrame("GUI");
+        String titleOfGUI = "GUI";
+
+        JFrame frame = new JFrame(titleOfGUI);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         frame.setSize(300,300);
 
         JButton button = new JButton("Press");
-        button.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ButtonClick();
-            }
-        });
+        button.addActionListener(e -> ButtonClick());
 
         frame.getContentPane().add(button); // Adds Button to content pane of frame
         frame.setVisible(true);
     }
 
+    /**
+     * Send text object to textbox
+     */
     private void ButtonClick() {
         try {
             System.out.println("Text in object: " + sharedObj.getString());
