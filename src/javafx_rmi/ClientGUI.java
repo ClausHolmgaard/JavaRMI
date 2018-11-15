@@ -10,8 +10,8 @@ public class ClientGUI extends JPanel{
     public JTextField ipEditField;
     public JTextField portEditField;
     public JTextField messageEditField;
-
-    private JButton sendMessageButton;
+    
+    public JButton sendMessageButton;
     private JFrame frame;
 
     public ClientGUI(RMIClient client) {
@@ -40,7 +40,7 @@ public class ClientGUI extends JPanel{
 
         add(ipEditField, BorderLayout.NORTH);
         add(portEditField, BorderLayout.NORTH);
-        
+
         add(sendMessageButton, BorderLayout.SOUTH);
     }
 
