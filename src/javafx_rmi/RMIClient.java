@@ -13,9 +13,11 @@ public class RMIClient {
     private int lastHash;
     private Boolean isConnected = false;
 
+    ClientGUI gui;
+
     public RMIClient() {
 
-        ClientGUI g = new ClientGUI(this);
+        gui = new ClientGUI(this);
 
         InitClient();
         System.out.println("Client started on " + rmiObjectName);
@@ -52,6 +54,10 @@ public class RMIClient {
     }
 
     private void connect() {
+
+        ip = gui.getIP();
+        port = gui.getPort();
+
         try {
             sharedObj = (SharedObjectInterface) Naming.lookup(rmiObjectName);
             System.out.println("KLIENTEN, har nu objektet");
@@ -80,7 +86,7 @@ public class RMIClient {
         if(!isConnected) {
             connect();
         }
-        sendInfoMessage("Test");
+        sendInfoMessage(gui.getMessageText());
     }
 
     private int getSharedHash() {
