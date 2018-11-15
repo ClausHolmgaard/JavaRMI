@@ -60,6 +60,8 @@ public class ClientGUI extends JPanel{
         frame = new JFrame("GUI");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+        frame.getContentPane().setSize(300, 300);
         //frame pack means the program GUI can be scaleable
         //frame.pack();
         frame.setSize(new Dimension(300, 300));
