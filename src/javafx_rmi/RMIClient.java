@@ -1,8 +1,5 @@
 package javafx_rmi;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.rmi.Naming;
 
 
@@ -12,10 +9,12 @@ class RMIClient {
     private String rmiObjectName;
     private int port;
 
-    RMIClient(int rmiPort, String objectName) {
+    public  RMIClient(int rmiPort, String objectName) {
         rmiObjectName = objectName;
         port = rmiPort;
-        InitGui();
+
+        ClientGUI g = new ClientGUI(this);
+
         InitClient();
         System.out.println("Client started on " + rmiObjectName);
     }
@@ -34,29 +33,7 @@ class RMIClient {
         }
     }
 
-    /**
-     * Initalization GUI
-     */
-    private void InitGui() {
-        String titleOfGUI = "GUI";
-
-        JFrame frame = new JFrame(titleOfGUI);
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.setSize(300,300);
-
-        JButton button = new JButton("Press");
-        button.addActionListener(e -> ButtonClick());
-
-        frame.getContentPane().add(button); // Adds Button to content pane of frame
-        frame.setVisible(true);
-    }
-
-    /**
-     * Send text object to textbox
-     */
-    private void ButtonClick() {
+    public void ButtonClick() {
         try {
             System.out.println("Text in object: " + sharedObj.getString());
         } catch(Exception ex) {
