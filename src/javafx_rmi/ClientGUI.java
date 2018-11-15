@@ -10,7 +10,7 @@ public class ClientGUI extends JPanel{
     public JTextField ipEditField;
     public JTextField portEditField;
     public JTextField messageEditField;
-    
+
     public JButton sendMessageButton;
     private JFrame frame;
 
@@ -27,21 +27,29 @@ public class ClientGUI extends JPanel{
     private void InitGui() {
         InitFrameGUI();
 
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(new FlowLayout(FlowLayout.CENTER));
+
         ipEditField = new JTextField();
         ipEditField.setHorizontalAlignment(JTextField.RIGHT);
+        ipEditField.setSize(30, 10);
+        //ipEditField.setText("Banana");
 
         portEditField = new JTextField();
         portEditField.setHorizontalAlignment(JTextField.RIGHT);
+        portEditField.setSize(30, 10);
+        //portEditField.setText("kiwi");
 
         sendMessageButton = new JButton("Send");
         sendMessageButton.addActionListener(e -> client.ButtonClick());
         sendMessageButton.setSize(new Dimension(40, 20));
 
+        panel1.add(ipEditField);
+        panel1.add(portEditField);
 
-        add(ipEditField, BorderLayout.NORTH);
-        add(portEditField, BorderLayout.NORTH);
-
-        add(sendMessageButton, BorderLayout.SOUTH);
+        frame.getContentPane().add(panel1, BorderLayout.PAGE_START);
+        frame.getContentPane().add(sendMessageButton, BorderLayout.SOUTH);
+        frame.setVisible(true);
     }
 
     /**
@@ -53,8 +61,9 @@ public class ClientGUI extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //frame pack means the program GUI can be scaleable
-        frame.pack();
-        frame.setVisible(true);
+        //frame.pack();
+        frame.setSize(new Dimension(300, 300));
+
 
         //Might be useful if we want full control
         frame.setResizable(false);
