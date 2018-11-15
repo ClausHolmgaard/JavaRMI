@@ -3,12 +3,12 @@ package javafx_rmi;
 import java.rmi.Naming;
 
 
-public class RMIClient {
+class RMIClient {
 
-    SharedObjectInterface sharedObj;
-    String rmiObjectName;
-    int port;
-    int lastHash;
+    private SharedObjectInterface sharedObj;
+    private String rmiObjectName;
+    private int port;
+    private int lastHash;
 
     public  RMIClient(int rmiPort, String objectName) {
         rmiObjectName = objectName;
@@ -20,6 +20,9 @@ public class RMIClient {
         System.out.println("Client started on " + rmiObjectName);
     }
 
+    /**
+     * Initalization client
+     */
     private void InitClient() {
         try {
             sharedObj = (SharedObjectInterface) Naming.lookup(rmiObjectName);
