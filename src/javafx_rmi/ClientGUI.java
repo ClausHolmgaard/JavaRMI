@@ -156,6 +156,10 @@ public class ClientGUI extends JPanel{
         return ipEditField.getText();
     }
 
+    public void addElementToListModel(String s){
+        listModel.addElement(s);
+    }
+
     public int getPort() {
         try {
             return Integer.valueOf(portEditField.getText());

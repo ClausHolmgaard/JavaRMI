@@ -45,7 +45,8 @@ public class RMIClient {
         try {
             while (true) {
                 if(checkForUpdates()) {
-                    System.out.println(getInfoMessage());
+                    //System.out.println(getInfoMessage());
+                    gui.addElementToListModel(getInfoMessage());
                 }
 
                 try {
