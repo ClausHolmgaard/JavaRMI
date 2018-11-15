@@ -8,6 +8,7 @@ public class RMIClient {
     private SharedObjectInterface sharedObj;
     private String rmiObjectName;
     private int port;
+    private int lastHash;
 
     public RMIClient(int rmiPort, String objectName) {
         rmiObjectName = objectName;
@@ -31,13 +32,54 @@ public class RMIClient {
         } catch (Exception ex) {
             System.out.println("CLIENT: Exception\n" + ex.toString());
         }
+
+        while (true) {
+            if(checkForUpdates()) {
+                System.out.println(getInfoMessage());
+            }
+        }
     }
 
+
+    private Boolean checkForUpdates() {
+        if(getSharedHash() != lastHash) {
+            lastHash = getSharedHash();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     public void ButtonClick() {
+        sendInfoMessage("Test");
+    }
+
+    private int getSharedHash() {
         try {
-            System.out.println("Text in object: " + sharedObj.getString());
-        } catch(Exception ex) {
-            System.out.println("CLIENT: Exception when reading.\n" + ex.toString());
+            return sharedObj.getHash();
+        } catch (Exception ex) {
+            System.out.println("CLIENT: Exception\n" + ex.toString());
+            return -1;
+        }
+    }
+
+    private void sendInfoMessage(String msg) {
+        InfoClass i = new InfoClass();
+        i.setMessage(msg);
+        try {
+            sharedObj.setInfo(i);
+        } catch (Exception ex) {
+            System.out.println("CLIENT: Exception\n" + ex.toString());
+        }
+    }
+
+    private String getInfoMessage() {
+        try {
+            return sharedObj.getInfo().getMessage();
+        } catch (Exception ex) {
+            System.out.println("CLIENT: Exception\n" + ex.toString());
+            return "";
         }
     }
 
