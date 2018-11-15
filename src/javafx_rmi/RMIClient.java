@@ -6,10 +6,10 @@ import java.rmi.Naming;
 public class RMIClient {
 
     private SharedObjectInterface sharedObj;
-    private String ip = "localhost";
-    private int port = 2002;
+    private String ip;
+    private int port;
     private String folder = "/Shared";
-    private String rmiObjectName = "rmi://" + ip + ":" + port + folder;
+    private String rmiObjectName;
     private int lastHash;
     private Boolean isConnected = false;
 
@@ -28,6 +28,7 @@ public class RMIClient {
      */
     private void InitClient() {
 
+        /*
         if(!isConnected) {
             connect();
 
@@ -39,6 +40,8 @@ public class RMIClient {
                 }
             }
         }
+        */
+
 
         while (true) {
             if(checkForUpdates()) {
@@ -58,6 +61,8 @@ public class RMIClient {
         ip = gui.getIP();
         port = gui.getPort();
 
+        rmiObjectName = "rmi://" + ip + ":" + port + folder;
+
         try {
             sharedObj = (SharedObjectInterface) Naming.lookup(rmiObjectName);
             System.out.println("KLIENTEN, har nu objektet");
@@ -69,6 +74,8 @@ public class RMIClient {
             System.out.println("CLIENT: Exception\n" + ex.toString());
             isConnected = false;
         }
+
+        gui.setConnected(isConnected);
     }
 
 
@@ -87,6 +94,10 @@ public class RMIClient {
             connect();
         }
         sendInfoMessage(gui.getMessageText());
+    }
+
+    public void ConnectClick() {
+        connect();
     }
 
     private int getSharedHash() {

@@ -16,6 +16,8 @@ public class ClientGUI extends JPanel{
     private JTextField messageEditField;
 
     private JButton sendMessageButton;
+    private JButton connectButton;
+
     private JFrame frame;
 
     public ClientGUI(RMIClient client) {
@@ -52,10 +54,19 @@ public class ClientGUI extends JPanel{
         portEditField.setPreferredSize(new Dimension(100, 20));
         portEditField.setText("2002");
 
+        connectButton = new JButton("Connect");
+        connectButton.addActionListener(e -> client.ConnectClick());
+        connectButton.setPreferredSize(new Dimension(100, 20));
+
         panel1.add(ipLabel);
         panel1.add(ipEditField);
         panel1.add(portLabel);
         panel1.add(portEditField);
+
+        JPanel panelSub = new JPanel();
+        panel1.setLayout(new FlowLayout());
+
+        panelSub.add(connectButton);
 
         JPanel panel2 = new JPanel();
         panel1.setLayout(new FlowLayout());
@@ -72,6 +83,7 @@ public class ClientGUI extends JPanel{
         panel2.add(sendMessageButton);
 
         frame.getContentPane().add(panel1, BorderLayout.PAGE_START);
+        frame.getContentPane().add(panelSub, BorderLayout.CENTER);
         //frame.getContentPane().add(messageEditField, BorderLayout.SOUTH);
         //frame.getContentPane().add(sendMessageButton, BorderLayout.AFTER_LAST_LINE);
         frame.getContentPane().add(panel2, BorderLayout.PAGE_END);
@@ -114,5 +126,9 @@ public class ClientGUI extends JPanel{
         }
 
         return -1;
+    }
+
+    public void setConnected(Boolean isCon) {
+        connectButton.setEnabled(!isCon);
     }
 }
