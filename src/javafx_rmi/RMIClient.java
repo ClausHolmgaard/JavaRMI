@@ -8,7 +8,7 @@ import java.rmi.Naming;
 
 public class RMIClient {
 
-    SharedRemoteObject sharedObj;
+    SharedObjectInterface sharedObj;
     String rmiObjectName;
     int port;
 
@@ -22,7 +22,7 @@ public class RMIClient {
 
     private void InitClient() {
         try {
-            sharedObj = (SharedRemoteObject) Naming.lookup(rmiObjectName);
+            sharedObj = (SharedObjectInterface) Naming.lookup(rmiObjectName);
             System.out.println("KLIENTEN, har nu objektet");
         } catch (java.rmi.ConnectException conEx) {
             System.out.println("CLIENT: Unable to connect to server!");
@@ -50,7 +50,11 @@ public class RMIClient {
     }
 
     private void ButtonClick() {
-        System.out.println("Button clicked...");
+        try {
+            System.out.println("Text in object: " + sharedObj.getString());
+        } catch(Exception ex) {
+            System.out.println("CLIENT: Exception when reading.\n" + ex.toString());
+        }
     }
 
 }

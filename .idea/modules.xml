@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JavaRMI.iml" filepath="$PROJECT_DIR$/JavaRMI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyRMI/MyRMI.iml" filepath="$PROJECT_DIR$/MyRMI/MyRMI.iml" />
     </modules>
   </component>
 </project>
