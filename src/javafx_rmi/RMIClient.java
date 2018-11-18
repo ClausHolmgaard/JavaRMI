@@ -3,19 +3,16 @@ package javafx_rmi;
 import java.rmi.Naming;
 
 
-public class RMIClient {
+class RMIClient {
 
     private SharedObjectInterface sharedObj;
-    private String ip;
-    private int port;
-    private String folder = "/Shared";
     private String rmiObjectName;
     private int lastHash;
     private Boolean isConnected = false;
 
-    ClientGUI gui;
+    private ClientGUI gui;
 
-    public RMIClient() {
+    RMIClient() {
 
         gui = new ClientGUI(this);
 
@@ -24,28 +21,13 @@ public class RMIClient {
     }
 
     /**
-     * Initalization client
+     * Initialization client
      */
+    @SuppressWarnings("InfiniteLoopStatement")
     private void InitClient() {
-
-        /*
-        if(!isConnected) {
-            connect();
-
-            if(!isConnected) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    System.out.println("Timer interrupted");
-                }
-            }
-        }
-        */
-
         try {
             while (true) {
                 if(checkForUpdates()) {
-                    //System.out.println(getInfoMessage());
                     gui.addElementToListModel(getInfoMessage());
                 }
 
@@ -58,15 +40,14 @@ public class RMIClient {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     private void connect() {
 
-        ip = gui.getIP();
-        port = gui.getPort();
+        String ip = gui.getIP();
+        int port = gui.getPort();
 
+        String folder = "/Shared";
         rmiObjectName = "rmi://" + ip + ":" + port + folder;
 
         System.setProperty("java.rmi.server.hostname", ip);
@@ -97,7 +78,7 @@ public class RMIClient {
     }
 
 
-    public void ButtonClick() {
+    void sendMessageButton() {
         if(!isConnected) {
             connect();
         }
@@ -105,7 +86,7 @@ public class RMIClient {
         gui.setMessageEditField("");
     }
 
-    public void ConnectClick() {
+    void ConnectClick() {
         connect();
     }
 
@@ -142,7 +123,6 @@ public class RMIClient {
                 return null;
             }
         }
-
         return null;
     }
 
