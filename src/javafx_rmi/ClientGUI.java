@@ -1,10 +1,9 @@
 package javafx_rmi;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
-public class ClientGUI extends JPanel{
+class ClientGUI extends JPanel{
 
     private static RMIClient client;
 
@@ -23,7 +22,12 @@ public class ClientGUI extends JPanel{
 
     private JFrame frame;
 
-    public ClientGUI(RMIClient client) {
+    /**
+     * Constructor
+     * GUI with backend function
+     * @param client RMIClient
+     */
+    ClientGUI(RMIClient client) {
         ClientGUI.client = client;
 
         InitGui();
@@ -36,64 +40,79 @@ public class ClientGUI extends JPanel{
     private void InitGui() {
         InitFrameGUI();
 
-        JPanel panel1 = new JPanel();
-        panel1.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        ipLabel = new JLabel();
-        ipLabel.setHorizontalAlignment(JLabel.CENTER);
-        ipLabel.setText("IP:");
-
-        ipEditField = new JTextField();
-        ipEditField.setHorizontalAlignment(JTextField.LEFT);
-        ipEditField.setPreferredSize(new Dimension(100, 20));
-        ipEditField.setText("localhost");
-
-        portLabel = new JLabel();
-        portLabel.setHorizontalAlignment(JLabel.CENTER);
-        portLabel.setText("Port:");
-
-        portEditField = new JTextField();
-        portEditField.setHorizontalAlignment(JTextField.LEFT);
-        portEditField.setPreferredSize(new Dimension(100, 20));
-        portEditField.setText("2002");
-
-        connectButton = new JButton("Connect");
-        connectButton.addActionListener(e -> client.ConnectClick());
-        connectButton.setPreferredSize(new Dimension(100, 20));
-
-        panel1.add(ipLabel);
-        panel1.add(ipEditField);
-        panel1.add(portLabel);
-        panel1.add(portEditField);
-
-        JPanel panelSub = new JPanel();
-        panel1.setLayout(new FlowLayout());
-
-        panelSub.add(connectButton);
-
+        //variables
+        JPanel topPanel = new JPanel();
+        JPanel bottomPanel = new JPanel();
         JPanel panel2 = new JPanel();
-        panel1.setLayout(new FlowLayout());
-
-        messageEditField = new JTextField();
-        messageEditField.setHorizontalAlignment(JTextField.LEFT);
-        messageEditField.setPreferredSize(new Dimension(200, 20));
-
-        sendMessageButton = new JButton("Send");
-        sendMessageButton.addActionListener(e -> client.ButtonClick());
-        sendMessageButton.setPreferredSize(new Dimension(70, 20));
-
-        panel2.add(messageEditField);
-        panel2.add(sendMessageButton);
-
-        frame.getContentPane().add(panel1, BorderLayout.PAGE_START);
-        frame.getContentPane().add(panelSub, BorderLayout.AFTER_LINE_ENDS);
-        //frame.getContentPane().add(messageEditField, BorderLayout.SOUTH);
-        //frame.getContentPane().add(sendMessageButton, BorderLayout.AFTER_LAST_LINE);
-        frame.getContentPane().add(panel2, BorderLayout.PAGE_END);
-        frame.getRootPane().setDefaultButton(sendMessageButton);
-
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        ipLabelGUI();
+
+        ipEditFieldGUI();
+
+        portLabelGUI();
+
+        portEditFieldGUI();
+
+        ConnectBtnGUI();
+
+        messageEditFieldGUI();
+
+        sendMessageBtnGUI();
+
+        addedToPanels(topPanel, bottomPanel, panel2);
+
+        listGUI();
+
+        addedToContentPage(topPanel, bottomPanel, panel2, scrollPane);
+    }
+
+    /**
+     * Add panels to content panel
+     * @param topPanel JPanel
+     * @param bottomPanel JPanel
+     * @param panel2 Jpanel
+     * @param scrollPane JScrollPane
+     */
+    private void addedToContentPage(JPanel topPanel, JPanel bottomPanel, JPanel panel2, JScrollPane scrollPane) {
+
+        //add panels to content panel.
+        frame.getContentPane().add(topPanel, BorderLayout.PAGE_START);
+        frame.getContentPane().add(bottomPanel, BorderLayout.AFTER_LINE_ENDS);
+        frame.getContentPane().add(panel2, BorderLayout.PAGE_END);
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+        //set default button to send message button, so the user can use enter button.
+        frame.getRootPane().setDefaultButton(sendMessageButton);
+
+        //set frame visible
+        frame.setVisible(true);
+    }
+
+    /**
+     * Add labels, editfields and buttons to panels.
+     * @param topPanel Jpanel
+     * @param bottomPanel Jpanel
+     * @param panel2 Jpanel
+     */
+    private void addedToPanels(JPanel topPanel, JPanel bottomPanel, JPanel panel2) {
+        topPanel.add(ipLabel);
+        topPanel.add(ipEditField);
+        topPanel.add(portLabel);
+        topPanel.add(portEditField);
+        bottomPanel.add(connectButton);
+        panel2.add(messageEditField);
+        panel2.add(sendMessageButton);
+    }
+
+    /**
+     * Chat GUI in list form
+     */
+    private void listGUI() {
         list.setFixedCellWidth(300);
         list.setDragEnabled(false);
         list.setSelectionModel(new DisabledItemSelectionModel());
@@ -105,13 +124,71 @@ public class ClientGUI extends JPanel{
             //follow the last index
             list.ensureIndexIsVisible(lastindex);
         }
+    }
 
-        //scroll panel with list object
-        JScrollPane scrollPane = new JScrollPane(list);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+    /**
+     * send message button GUI
+     */
+    private void sendMessageBtnGUI() {
+        sendMessageButton = new JButton("Send");
+        sendMessageButton.addActionListener(e -> client.sendMessageButton());
+        sendMessageButton.setPreferredSize(new Dimension(70, 20));
+    }
 
-        frame.setVisible(true);
+    /**
+     * message Edit field GUI
+     */
+    private void messageEditFieldGUI() {
+        messageEditField = new JTextField();
+        messageEditField.setHorizontalAlignment(JTextField.LEFT);
+        messageEditField.setPreferredSize(new Dimension(200, 20));
+    }
+
+    /**
+     * Connect button GUI
+     */
+    private void ConnectBtnGUI() {
+        connectButton = new JButton("Connect");
+        connectButton.addActionListener(e -> client.ConnectClick());
+        connectButton.setPreferredSize(new Dimension(100, 20));
+    }
+
+    /**
+     * port Edit field GUI
+     */
+    private void portEditFieldGUI() {
+        portEditField = new JTextField();
+        portEditField.setHorizontalAlignment(JTextField.LEFT);
+        portEditField.setPreferredSize(new Dimension(100, 20));
+        portEditField.setText("2002");
+    }
+
+    /**
+     * port Label GUI
+     */
+    private void portLabelGUI() {
+        portLabel = new JLabel();
+        portLabel.setHorizontalAlignment(JLabel.CENTER);
+        portLabel.setText("Port:");
+    }
+
+    /**
+     * ip Edit field GUI
+     */
+    private void ipEditFieldGUI() {
+        ipEditField = new JTextField();
+        ipEditField.setHorizontalAlignment(JTextField.LEFT);
+        ipEditField.setPreferredSize(new Dimension(100, 20));
+        ipEditField.setText("localhost");
+    }
+
+    /**
+     * ip Label GUI
+     */
+    private void ipLabelGUI() {
+        ipLabel = new JLabel();
+        ipLabel.setHorizontalAlignment(JLabel.CENTER);
+        ipLabel.setText("IP:");
     }
 
     /**
@@ -130,37 +207,39 @@ public class ClientGUI extends JPanel{
     private void InitFrameGUI(){
         //start JFrame
         frame = new JFrame("GUI");
+
+        //option to exit on close the program
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-        //frame.getContentPane().setSize(300, 300);
         //frame pack means the program GUI can be scaleable
         frame.pack();
+
+        //set program size to 300 width, 300 height
         frame.setSize(new Dimension(300, 300));
 
 
-        //Might be useful if we want full control
+        //disable resize function, because we want the chat to have a certain size.
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
     }
 
-    public String getMessageText() {
+    String getMessageText() {
         return messageEditField.getText();
     }
 
-    public void setMessageEditField(String message){
+    void setMessageEditField(String message){
         messageEditField.setText(message);
     }
 
-    public String getIP() {
+    String getIP() {
         return ipEditField.getText();
     }
 
-    public void addElementToListModel(String s){
+    void addElementToListModel(String s){
         listModel.addElement(s);
     }
 
-    public int getPort() {
+    int getPort() {
         try {
             return Integer.valueOf(portEditField.getText());
         } catch (Exception ex) {
@@ -169,7 +248,7 @@ public class ClientGUI extends JPanel{
         return -1;
     }
 
-    public void setConnected(Boolean isCon) {
+    void setConnected(Boolean isCon) {
         connectButton.setEnabled(!isCon);
     }
 }
