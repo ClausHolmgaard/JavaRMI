@@ -1,3 +1,6 @@
+/*
+Server delen af RMI implementationen
+ */
 package javafx_rmi;
 
 import java.rmi.Naming;
@@ -10,6 +13,7 @@ public class RMIServer {
     static Registry reg;
     static int port;
 
+    // Constructor
     public RMIServer(int rmiPort, String objectName) {
         rmiObjectName = objectName;
         port = rmiPort;

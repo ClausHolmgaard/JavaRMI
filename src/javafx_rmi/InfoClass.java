@@ -1,3 +1,7 @@
+/*
+Implementation af custom class.
+Har kun message of ID lige nu, hvor ID ikke bruges.
+ */
 package javafx_rmi;
 
 import java.io.Serializable;

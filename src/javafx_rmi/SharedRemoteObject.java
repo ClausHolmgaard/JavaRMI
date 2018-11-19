@@ -1,3 +1,7 @@
+/*
+Implementation af det delte objekt
+ */
+
 package javafx_rmi;
 
 import java.rmi.RemoteException;
@@ -10,7 +14,7 @@ public class SharedRemoteObject extends UnicastRemoteObject implements SharedObj
     private InfoClass info;
     private int hash;  // Hash simulation
 
-
+    // Constructor
     SharedRemoteObject() throws RemoteException {
         sharedString = "Init";
         hash = 0;
@@ -30,6 +34,7 @@ public class SharedRemoteObject extends UnicastRemoteObject implements SharedObj
 
     @Override
     public void setInfo(InfoClass i) {
+        // ikke en egentlig hash, men simulerer det godt nok
         hash++;
         info = i;
     }

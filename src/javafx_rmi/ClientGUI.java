@@ -1,3 +1,6 @@
+/*
+GUI til klienten
+ */
 package javafx_rmi;
 
 import javax.swing.*;
@@ -28,8 +31,9 @@ class ClientGUI extends JPanel{
      * @param client RMIClient
      */
     ClientGUI(RMIClient client) {
-        ClientGUI.client = client;
+        ClientGUI.client = client;  // reference til klient implementationen
 
+        // Start gui'en
         InitGui();
     }
 
